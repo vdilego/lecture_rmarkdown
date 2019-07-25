@@ -1,10 +1,5 @@
-<<<<<<< HEAD
+
 ![](rmarkdown_logo.jpeg)
-=======
-
-![logo](rmarkdown_logo.jpeg)
->>>>>>> ed1d8c16cf6666d08e04b1a869bb249595fd5019
-
 # Cedeplar workshop on Rmarkdown 
 Workshop given in Cedeplar as an introductory overview of Rmarkdown as a tool for producing documents and PhD dissertation. We will discuss applications mainly to the demographic field and also the pros and cons of its use. 
 Some intro to github and open source is also planned. Please stay tuned for further documentation.
