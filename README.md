@@ -1,5 +1,5 @@
 
-![logo](rmarkdown_logo.jpeg){ width=30% }
+![logo](rmarkdown_logo.jpeg){width=30%}
 
 # Cedeplar workshop on Rmardown 
 Workshop given in Cedeplar as an introductory overview of Rmarkdown as a tool for producing documents and PhD dissertation. We will discuss applications mainly to the demographic field and also the pros and cons of its use. 
