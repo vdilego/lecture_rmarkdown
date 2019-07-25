@@ -1,8 +1,3 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
 
 ![logo](rmarkdown_logo.jpeg){ width=30% }
 
