@@ -1,0 +1,1052 @@
+---
+title: "Oi, R Markdown!"
+subtitle: "Dia 1: Familiarizando-se com o bicho"
+author: "Vanessa di Lego. Adaptado do gênio Ulrik Lyngs"
+date: "29 July 2019"
+output:
+  xaringan::moon_reader:
+    includes:
+       in_header: "../GA_Script.html"
+    seal: false
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    nature:
+      #highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: ["middle", "center"]
+      ratio: "16:9"
+      beforeInit: ["https://platform.twitter.com/widgets.js", "libs/cols_macro.js"]
+      navigation:
+        scroll: false # disable slide transitions by scrolling
+    css: ["libs/lyngs_style.css", default, rutgers-fonts, libs/cols.css, "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.min.css", "https://use.fontawesome.com/releases/v5.7.2/css/all.css", "libs/css/academicons.min.css"]
+---
+class: title-slide
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.path = "figures/")
+library(tidyverse)
+library(magick)
+library(reticulate)
+```
+
+.row[
+.col-7[
+.title[
+# Oi, R Markdown!
+]
+.subtitle[
+## Dia 1: Familiarizando-se com o bicho
+### Rmarkdown Workshop, 29-31 July 2019
+]
+
+.author[
+### Vanessa di Lego. Adaptado de Ulrik Lyngs]
+
+.affiliation[
+### Vienna Institute of Demography
+]
+
+]
+
+.col-5[
+
+.logo[
+```{r}
+knitr::include_graphics("figures/rmarkdown.png")
+```
+]
+
+Slides e Material:<br> [https://github.com/vdilego/lecture_rmarkdown](https://github.com/vdilego/lecture_rmarkdown)
+
+
+]
+
+]
+
+
+---
+<iframe width="1300" height="600" src="https://www.youtube.com/embed/s3JldKoA0zw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+---
+class: larger-body
+# Boas referências
+
+.pull-left[
+**Sites e pacotes úteis**
+- [`oxforddown`](https://github.com/ulyngs/oxforddown) formato da Universidade de Oxford para teses.
+- [`rosanna`](https://rosannavanhespenresearch.wordpress.com/2016/02/03/writing-your-thesis-with-r-markdown-1-getting-started) o que eu usei para a tese, salva bastante.
+- [`bookdown`](https://bookdown.org/yihui/bookdown) já vem com o formato de "livro" ou tese e economiza tempo, mas às vezes pouco flexível.
+]
+
+--
+.pull-right[
+**Mais ajustes e help de nível avancado**
+- [How to adapt journals' LaTeX templates for use with R Markdown](https://ulyngs.github.io/blog/posts/2018-10-28-how-to-write-acm-articles-with-r-markdown/)
+- [How to create custom chunk options](https://ulyngs.github.io/blog/posts/2019-02-01-how-to-create-your-own-chunk-options-in-r-markdown/)
+- [Advanced customisation with pandoc filters](https://ulyngs.github.io/blog/posts/2019-02-19-how-to-use-pandoc-filters-for-advanced-customisation-of-your-r-markdown-document/)
+]
+
+---
+class: inverse, center, middle
+
+# Plano das aulas
+
+---
+## Dia 1: Aspectos Fundamentais
+- Por que R Markdown?
+- O que é git, github e version control e porque é importante
+- Syntaxe básica: Markdown & códigos
+- O inferno das referências: Citar & cross-referencing, gerente de referências e addins pra facilitar a vida
+
+---
+## Dia 2: Aplicar os conhecimentos 
+- Customisando os resultados
+- Workflows e processo de colaborar em um mesmo artigo
+- Exemplos demográficos
+
+--- 
+
+## Dia 3: Interagindo com outras linguagens e "hacks" 
+- Interar com  $LaTeX$
+- Bookdown e particularidades do YAML header
+- Diversas abordagens para incorporar imagens e gráficos
+
+---
+class: center, middle, inverse
+
+# Dia 1: Aspectos Fundamentais
+
+---
+class: very-large-body
+# Imagina...
+
+--
+- Códigos, gráficos, fórmulas e texto em um só documento?
+
+--
+- Resultados e gráficos automaticamente gerados pelos dados, de forma que automaticamente se atualizam.
+--
+
+- Formato dos documentos é "à prova do seu eu-futuro"?
+
+
+---
+# Imagina...
+
+.pull-left[
+- Códigos, gráficos, fórmulas e texto em um só documento?
+- Resultados e gráficos automaticamente gerados pelos dados, de forma que automaticamente se atualizam.
+- Formato dos documentos é "à prova do seu eu-futuro"?
+]
+
+.pull-right[
+```{r, out.width="95%"}
+knitr::include_graphics("figures/notebook-demo.png")
+```
+
+]
+
+---
+# Imagina....
+
+.pull-left[
+- Códigos, gráficos, fórmulas e texto em um só documento?
+- Resultados e gráficos automaticamente gerados pelos dados, de forma que automaticamente se atualizam.
+- Formato dos documentos é "à prova do seu eu-futuro"?
+]
+
+
+.pull-right[
+```{r, echo=FALSE}
+knitr::include_graphics("figures/plain-text.png")
+```
+*Plain text*
+]
+
+--
+.on-top-right[![](figures/too-old.png)]
+
+---
+# Imagina...
+
+.pull-left[
+- Códigos, gráficos, fórmulas e texto em um só documento?
+- Resultados e gráficos automaticamente gerados pelos dados, de forma que automaticamente se atualizam.
+- Formato dos documentos é "à prova do seu eu-futuro"?
+]
+
+.pull-right[
+```{r, echo=FALSE}
+knitr::include_graphics("figures/latex.png")
+```
+
+]
+
+---
+# Imagina...
+
+.pull-left[
+- Códigos, gráficos, fórmulas e texto em um só documento?
+- Resultados e gráficos automaticamente gerados pelos dados, de forma que automaticamente se atualizam.
+- Formato dos documentos é "à prova do seu eu-futuro"?
+]
+
+.pull-right[
+```{r, echo=FALSE}
+#image_read("figures/markdown-ref.png") %>% 
+#  image_crop("1030x900+0+95") %>% 
+#  image_write("figures/cropped.png", format = "png")
+knitr::include_graphics("figures/cropped.png")
+```
+
+*Markdown*
+]
+
+---
+
+class: center, middle, inverse
+
+# Estrutura de um documento Rmarkdown
+
+---
+**R Markdown file = plain text file with extension _.Rmd_**
+
+````markdown
+---
+title: "Diamond sizes"
+date: 2016-08-25
+output: html_document
+---
+
+`r ''````{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+# Shine bright like a diamond
+We have data about ``r ''`r nrow(diamonds)` diamonds.
+Only ``r ''`r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. 
+The distribution of the remainder is shown below:
+
+`r ''````{r}
+smaller %>% 
+  ggplot(aes(carat)) + 
+  geom_freqpoly(binwidth = 0.01)
+  
+```
+````
+
+???
+O documento Rmarkdown é composto de 3 partes e o documento final é formato .Rmd
+
+---
+
+**YAML header (chamado de "Ain't Markup Language")**
+
+````markdown
+*---
+*title: "Diamond sizes"
+*date: 2016-08-25
+*output: html_document
+*---
+
+`r ''````{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+# Shine bright like a diamond
+We have data about ``r ''`r nrow(diamonds)` diamonds.
+Only ``r ''`r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. 
+The distribution of the remainder is shown below:
+
+`r ''````{r}
+smaller %>% 
+  ggplot(aes(carat)) + 
+  geom_freqpoly(binwidth = 0.01)
+  
+```
+````
+
+???
+- a header (cabecalho) entre 3 acentos graves
+- valores-par como  'title: "Diamond sizes"'
+- com isso é possível especificar meta-dados sobre o documento, como título, autor, data, e também sobre o tipo de documento que será gerado
+
+---
+
+**Texto**
+
+````markdown
+---
+title: "Diamond sizes"
+date: 2016-08-25
+output: html_document
+---
+
+`r ''````{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+*# Shine bright like a diamond
+*We have data about ``r ''`r nrow(diamonds)` diamonds.
+*Only ``r ''`r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. 
+*The distribution of the remainder is shown below:
+
+`r ''````{r}
+smaller %>% 
+  ggplot(aes(carat)) + 
+  geom_freqpoly(binwidth = 0.01)
+
+```
+````
+
+---
+**Código**
+
+````markdown
+---
+title: "Diamond sizes"
+date: 2016-08-25
+output: html_document
+---
+
+*`r ''````{r setup, include=FALSE}
+*library(ggplot2)
+*library(dplyr)
+*
+*smaller <- diamonds %>% 
+* filter(carat <= 2.5)
+*```
+
+# Shine bright like a diamond
+We have data about ``r ''`r nrow(diamonds)` diamonds.
+Only ``r ''`r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. 
+The distribution of the remainder is shown below:
+
+*`r ''````{r}
+*smaller %>% 
+* ggplot(aes(carat)) + 
+* geom_freqpoly(binwidth = 0.01)
+*
+*```
+````
+
+---
+class: center, middle, inverse
+
+# Tipos de documentos possíveis
+
+---
+class: center, middle
+
+**Documentar** análises ou relatórios, fazer um **website**, escrever **paper**, <br>
+fazer **slides**... documentos pdf, word, html!
+
+```{r, out.width="90%"}
+knitr::include_graphics("figures/rmarkdown_universe.jpg")
+```
+
+
+???
+Qual é o workflow?
+
+credit: https://www.williamrchase.com/slides/intro_r_anthropology_2018#82
+
+---
+
+class: center, middle, inverse
+
+![](figures/rmarkdown_workflow.png)
+
+
+---
+class: center, middle
+
+# Sintaxe básica
+
+---
+class: syntax-slide
+
+.pull-left[
+  ### This...
+  \*italics\* and \*\*bold\*\*  
+  
+  <span>&#96;</span>inline code&#96;
+  
+  sub~2~/superscript^2^
+  
+  \~\~strikethrough\~\~
+  
+  escaped: \\* \\_ \\\
+  
+  endash: --, emdash: ---
+  
+  \> blockquote
+  
+  \# Header 1
+  
+  \#\# Header 2
+  
+  *Line break: End line with 2+ spaces, or backslash:* <br>
+  Roses are red <br>
+  Violets are blue
+  
+  Roses are red \ <br>
+  Violets are blue
+]
+
+.pull-right[
+  ### turns into this...
+  *italics* and **bold**
+  
+  `inline code`
+  
+  sub<sub>2</sub>/superscript<sup>2</sup>
+  
+  ~~strikethrough~~
+  
+  escaped: \* \_ \\
+  
+  endash: &ndash;, emdash: &mdash;
+  
+  > blockquote
+  
+  # Header 1
+  ## Header 2
+  
+  Roses are red Violets are blue
+  
+  Roses are red <br>
+  Violets are blue
+]
+
+---
+class: syntax-slide 
+.pull-left[
+  ### This...
+  
+  \- unordered list <br>
+  &nbsp; &nbsp; \- sub-item <br>
+  &nbsp; &nbsp; \- sub-item 2 <br>
+  &nbsp; &nbsp; &nbsp; \- sub-sub-item
+  
+  1\. ordered list <br>
+  2\. item 2 <br>
+  &nbsp; &nbsp; \- sub-item 1 <br>
+  &nbsp; &nbsp; \- sub-item 2
+  
+
+  <br>
+  inline-math: &#36;A = \pi*r^{2}&#36;
+  
+  math-block: <span>&#36;</span>&#36;A = \pi*r^{2}&#36;&#36;
+  
+  \[text for hyperlink\](https://www.google.com)
+  
+  A footnote [^1]
+  
+  [^1]: here is the footnote text.
+  
+  <span><!-</span>- this is a comment that won't be shown -<span>-></span>
+  
+]
+.pull-right[
+  ### turns into this...
+  
+  - unordered list
+    - sub-item
+    - sub-item 2
+      - sub-sub-item
+  
+  1. ordered list
+  1. item 2 <br>
+    i. sub-item 1 <br>
+    ii. sub-item 2
+  
+  inline-math: $A = \pi*r^{2}$
+  
+  math-block: $$A = \pi*r^{2}$$
+  
+  [text for hyperlink](https://www.google.com)
+  
+  A footnote<sup>1</sup>
+  
+  .footnote[[1] Here is the footnote text.]
+  
+]
+
+---
+
+# Hora de praticar!
+
+Importante ter instalado...
+- [R](https://cran.rstudio.com) and [RStudio](https://www.rstudio.com/products/rstudio/download/preview/) + R packages `bookdown` and `tidyverse` (`install.packages("package-name")`)
+- a LaTeX installation, for knitting to PDF (`tinytex::install_tinytex()`)
+- avaliar se precisa de java, anaconda, etc
+
+## Básico
+- *Criar um documento Rmarkdow* <br>
+(File > New File > R Markdown...)
+
+- *Knit para HTML, PDF, Word*
+
+- *Ajustar o conteúdo*
+- adicione seu nome e o dia de hoje para o header YAML
+- escreva um parágrafo, contendo palavras em **bold** e *italics*
+- knit para o output que você deseja
+
+---
+
+## Intermediário
+Em um novo documento Rmarkdown, adicione
+- um hyperlink
+- um blockquote
+- um commentário
+- alguma matemática
+
+Rferências de ajuda do próprio do Rstudio:
+- Help > Cheatsheets > R Markdown Cheat Sheet
+- Help > Cheatsheet > R Markdown Reference Guide
+- Help > Markdown Quick Reference
+
+--- 
+
+## Avancado
+- Quais duas formas de criar pé de página?
+- Como conseguir backticks (&#96;) no seu output?
+- Diferenca entre `rmarkdown::pdf_document` e `bookdown::pdf_document2`?
+
+
+---
+class: center, middle, inverse
+
+![](figures/googling.jpg)
+
+---
+class: center, middle
+
+# Código
+
+---
+class: small-font
+# Chunks
+
+![](figures/chunk-parts.png)
+--
+
+**Ajustes do chunk** (see e.g. [bookdown.org](https://bookdown.org/yihui/rmarkdown/r-code.html))
+- `echo`: mostrar o código no output
+- `eval`: rodar o código quando knitting
+- `include`: incluir qualquer coisa da sintaxe no output
+- `fig.cap`: título do gráfico
+
+---
+class: larger-body
+# Chunks típicos
+### Setup 
+````markdown
+`r ''````{r setup, include=FALSE}
+# mostra o código somente se echo = TRUE
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+```
+````
+
+--
+- Normalmente, um documento Rmarkdown já vem com um chunk com alguns ajustes e opcöes.
+
+--
+- `knitr::opts_chunk$set` ajuste default para todos chunks
+
+
+---
+### Incluir imagens
+
+.pull-left[
+````markdown
+`r ''````{r, fig.cap="R Markdown logo"}
+knitr::include_graphics("figures/markdown.png")
+```
+````
+]
+
+.pull-right[
+```{r, out.width="60%", fig.align='center'}
+knitr::include_graphics("figures/rmarkdown.png")
+```
+.caption[
+R Markdown logo
+]
+
+]
+
+---
+### Incluir gráficos
+
+.pull-left[
+````markdown
+`r ''````{r, fig.cap = "A ggplot of car stuff"}
+cars %>% 
+  ggplot() +
+    aes(x = speed, y = dist) +
+    geom_point()
+```
+````
+
+]
+
+.pull-right[
+```{r, out.width="90%", fig.align='center', fig.retina = 3}
+cars %>% 
+  ggplot() +
+    aes(x = speed, y = dist) +
+    geom_point()
+```
+
+.caption[
+A ggplot of car stuff
+]
+
+]
+
+
+
+---
+class: larger-body
+### Incluindo tabelas: mencionar \( \LaTeX \) online
+
+.pull-left[
+````markdown
+`r ''````{r}
+cars %>% 
+  head() %>% 
+  knitr::kable(caption = "A knitr kable table")
+```
+````
+]
+
+.pull-right[
+```{r}
+# cars is a built-in-to-R data set of cars
+# and their stopping distances
+cars %>% 
+  head(5) %>% 
+  knitr::kable(format = "html", caption = "A knitr kable table")
+```
+
+]
+
+<br>
+
+--
+- Quando usar [`kable`](https://www.rdocumentation.org/packages/knitr/versions/1.21/topics/kable), nomes e labels entram dentro da `kable` function
+- O pacote `kable` é geralmente usado com o pacote [`kableExtra`](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
+- Outros pacotes existem para fazer boas tabelas; veja [rmarkdown.rstudio.com](https://rmarkdown.rstudio.com/lesson-7.html)
+
+---
+class: larger-body
+# Inserindo sintaxe numa mesma linha
+
+--
+Dentro do texto é possível incluir sintaxe <span>&#96;</span>r code here&#96;.
+
+
+--
+Por exemplo, <span>&#96;</span>r 4 + 4&#96; teria o output `r 4 + 4` no seu texto.
+
+--
+```{r, echo = TRUE}
+print(diamonds, n = 5)
+
+num_diamonds <- nrow(diamonds)
+
+```
+
+--
+.pull-left[
+There are <span>&#96;</span>r num_diamonds&#96; rows in the `diamonds` dataset.
+]
+
+--
+.pull-right[
+There are `r num_diamonds` rows in the `diamonds` dataset.
+]
+
+---
+class: larger-body
+# Inserindo sintaxe numa mesma linha com python
+
+--
+[At the moment](https://stackoverflow.com/questions/47818461/is-there-a-way-in-knitr-to-evaluate-inline-code-chunks-of-other-languages), syntax like <span>&#96;</span>python code here&#96; is not valid.
+
+
+--
+Bom usar o pacote [`reticulate`](https://rstudio.github.io/reticulate/articles/r_markdown.html). Baixe anaconda antes.
+
+--
+````markdown
+`r ''````{python}
+my_number = 4 + 8
+
+print(my_number)
+
+```
+````
+
+```{python}
+my_number = 4 + 8
+print(my_number)
+```
+
+--
+````markdown
+`r ''````{r}
+library(reticulate)
+
+py$my_number
+
+```
+````
+
+```{r}
+py$my_number
+```
+
+--
+Daí refira-se a essa linha python como <span>&#96;</span>r py$my_number&#96; - `my_number` is `r py$my_number`.
+
+
+---
+class: larger-body
+.center[
+# Tempo para prática!
+]
+
+---
+## Básico
+
+Em um novo documento Rmardown inclua, através dos chunks:
+1. Uma imagem com `knitr::include_graphics`
+2. Um gráfico (exemplo `plot(pressure)`)
+3. Uma tabela (usando `kable`)
+4. Alguma estatística que seja reportada no output final (pense nos ajustes que deseja incluir)
+
+---
+## Intermediário  
+
+1. Tente redimensionar figuras com `out.width` e `fig.width` - qual a diferenca?
+2. Como ajustar as opcoes globais do `knitr` para esconder a sintaxe por default?
+3. Quais outras alternativas disponíveis para controlar um chunk e como os resultados susequentes säo inseridos no relatório final? (Dica: veja [R for Data Science, 27.4.2](https://r4ds.had.co.nz/r-markdown.html))
+
+---
+## Avancado
+
+1. Qual a utilidade do comando `cache = TRUE`? Como esse comando se relaciona com o ajuste `dependson` dos chunks?
+
+Dicas: 
+1. controle de tamanho antes de criar gráfico vs redimensionar depois de plotado (https://sebastiansauer.github.io/figure_sizing_knitr/)
+
+2. veja o blogpost do Lyngs: https://ulyngs.github.io/blog/posts/2019-02-01-how-to-create-your-own-chunk-options-in-r-markdown/
+
+---
+class: center, middle, inverse
+
+# Elementos Finais
+
+---
+class: larger-body
+# Citar e gerenciar referências
+
+--
+<ol>
+<li> As referências precisam ser um arquivo de texto de formato **.bib**/**BibTex** (a maior parte dos gestores fazem isso - [Zotero](https://www.zotero.org) e [Mendeley](https://www.mendeley.com) säo os mais comuns e que funcionam melhor).<sup>1</sup>
+<br> No trecho destacado, 'Shea2014' é o **identificador de citacao**, ou também chamado de **key**.
+</ol>
+```bibtex
+*@article{Shea2014,
+  author =        {Shea, Nicholas and Boldt, Annika},
+  journal =       {Trends in Cognitive Sciences},
+  pages =         {186--193},
+  title =         {{Supra-personal cognitive control}},
+  volume =        {18},
+  year =          {2014},
+  doi =           {10.1016/j.tics.2014.01.006},
+}
+```
+
+--
+<ol start = 2>
+<li>Inclua isso no seu YAML header
+</ol>
+```yaml
+---
+title: "Citation test"
+*bibliography: example.bib
+output: html_document
+---
+```
+
+--
+[1] Outros formatos de referências como EndNote (**.enl**) e RIS (**.ris**) também funcionam. Veja para mais detalhes sobre esse assunto: [rmarkdown.rstudio.com/authoring_bibliographies_and_citations](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
+
+---
+class: larger-body
+# Citando
+<ol start = 3>
+<li>No seu texto, inclua a chave dentro de colchetes e separadas por semivírgulas. <br> O default de referência é o Chicago (autor-data), mas isso pode ser alterado também:
+</ol>
+
+--
+.pull-left[
+### isso no Rmarkdown...
+Blah blah [@Shea2014; @Lottridge2012].
+]
+
+.pull-right[
+### fica assim depois de compliado, no arquivo final...
+  
+Blah blah (Shea et al. 2014; Lottridge et al. 2012).
+]
+---
+class: larger-body
+# Citando
+<ol start = 3>
+<li>No seu texto, inclua a chave dentro de colchetes e separadas por semivírgulas. <br> O default de referência é o Chicago (autor-data), mas isso pode ser alterado também:
+</ol>
+
+
+.pull-left[
+### isso no Rmarkdown...
+Blah blah [@Shea2014; @Lottridge2012].
+
+De acordo com Shea et al. blah [-@Shea2014].
+
+@Shea2014 afirma que blah.
+
+Blah blah [see @Shea2014, pp. 33-35; also @Wu2016, ch. 1].
+]
+
+.pull-right[
+### fica assim depois de compliado, no arquivo final...
+  
+Blah blah (Shea et al. 2014; Lottridge et al. 2012).
+
+Shea et al. afirma que blah (2014).
+
+Shea et al. (2014) diz blah.
+
+Blah blah (veja Shea et al. 2014, 33–35; veja também Wu 2016, ch. 1).
+]
+
+
+---
+class: larger-body
+# Citando
+<ol start = 3>
+<li>No seu texto, inclua a chave dentro de colchetes e separadas por semivírgulas. <br> O default de referência é o Chicago (autor-data), mas isso pode ser alterado também:
+</ol>
+
+
+.pull-left[
+### isso no Rmarkdown...
+Blah blah [@Shea2014; @Lottridge2012].
+  
+De acordo com Shea et al. blah [-@Shea2014].
+
+@Shea2014 afirma que  blah.
+
+Blah blah [veja @Shea2014, pp. 33-35; e também @Wu2016, ch. 1].
+]
+
+.pull-right[
+### fica assim depois de compliado, no arquivo final....
+  
+Blah blah (Shea et al. 2014; Lottridge et al. 2012).
+
+Shea et al. afirma que blah (2014).
+
+Shea et al. (2014) diz que blah.
+
+Blah blah (veja Shea et al. 2014, 33–35; veja também Wu 2016, ch. 1).
+]
+
+É possível adicionar arquivos .csl `csl: my-style.csl` no YAML header para alterar o formato das referências bibliográficas no documento final - veja os estilos e baixe em [zotero.org/styles](https://www.zotero.org/styles)
+
+---
+class: larger-body
+# Citando: "hack" salva vida!
+Para salvar a sua vida, use o addin [`citr`](https://github.com/crsh/citr) do RStudio. Basta que o arquivo de texto .bib esteja no mesmo diretório
+
+.row[
+  .col-4[
+  `install.packages("citr")`
+  ]
+  
+  .col-8[
+  .center[
+  ```{r, out.width="75%"}
+  knitr::include_graphics("https://raw.githubusercontent.com/crsh/citr/master/tools/images/addin_demo.gif")
+  ```
+  ]
+  ]
+
+]
+
+---
+class: larger-body
+# Cross-referenciando: possibilidade de se referenciar a partes específicas do texto dentro do próprio documento.
+- Para isso, use o pacote `bookdown`. É possível se referir a **setores**, **gráficos**, **tabelas** e até mesmo partes do **texto**.
+
+--
+- Para contar com essa mobilidade, ajuste o output para: `bookdown::html_document2`, `bookdown::pdf_document2`, `bookdown::word_document2`, etc. (veja para qual ajuste é o mais apropriado para os seus objetivos [bookdown.org](https://bookdown.org/yihui/bookdown/output-formats.html))
+
+
+--
+```yaml
+---
+title: "teste para cross-referenciar"
+output: bookdown::html_document2
+---
+```
+
+---
+class: larger-body
+### Referenciando 
+- Headers/cabecalhos automaticamente possuem um label de referência. 
+--
+  - Por exemplo, o label para `# My header` é `my-header`
+
+--
+- A sintaxe para referências bibliográficas é `\@ref(label)` 
+
+--
+  - Logo `# My header` pode ser citado como `\@ref(my-section)`
+  
+--
+  - .Rmd: `Veja seccao \@ref(my-header)` -> output: 'Veja seccao 1'
+  
+  
+---
+class: larger-body
+### Referenciando
+- É possível também usar hyperlink e adicionar \# antes dos labels
+
+--
+  - .Rmd: `[veja essa seccao](#my-header)` -> output: '[veja essa seccao](#section-references)'
+
+--
+- Crie labels customizados usando `{#label}` após um header, como por exemplo: `# My section {#my-label}`.
+
+
+---
+class: larger-body
+## Referenciando figuras e tabelas
+- Para referenciar figuras e tabelas é preciso que nomeá-las antes.
+
+.pull-left[
+````markdown
+`r ''````{r captain, fig.cap="A marvel-lous meme"}
+knitr::include_graphics("figures/captain.jpeg")
+```
+````
+
+```{r captain, fig.align='center', fig.cap="A marvel-lous meme", out.width="65%"}
+knitr::include_graphics("figures/captain.jpeg")
+```
+
+]
+
+--
+.pull-right[
+- Para (gráficos e imagens) use `\@ref(fig:label)`
+- Logo referencia como `\@ref(fig:captain)`<sup>1</sup>
+]
+
+
+--
+.pull-right[
+.footnote[
+[1] A primeira alternativa de ajuste no chunk depois de language é label (possível também com `label=captain`).
+]
+
+]
+
+---
+class: larger-body
+## Referenciando figuras e tabelas
+.pull-left[
+````markdown
+`r ''````{r cars}
+knitr::kable(cars[1:5,],
+            caption="Stopping cars")
+```
+````
+
+```{r cars}
+knitr::kable(cars[1:5,],
+            caption="Stopping cars")
+```
+
+]
+
+
+--
+.pull-right[
+- Para se referir a tabelas use `\@ref(tab:label)`
+- Logo para essa tabela usaríamos `\@ref(tab:cars)`
+]
+---
+class: larger-body
+.center[
+# Tempo de praticar!
+]
+
+--- 
+## Básico
+
+1. Instale o `citr` RStudio add-in
+2. o que acontece quando adicionado as referências na hora de knit?
+3. Tente referenciar figuras e tabelas no próprio texto e compilar. Está dando certo?
+
+---
+  
+##Intermediário[
+1. Mude o estilo de citar `csl: citation_styles/apa.csl`. O que acontece quando você knit?
+2. Olhe outros estilos de referência [zotero.org/styles](https://www.zotero.org/styles); baixe-os e teste-os.
+3. Adicione um label customizado e tente referenciar usando o label criado no documento.
+
+--- 
+
+## Avancado
+1. Como impedir que o pandoc adicione referências automaticamente no final do texto?
+2. Como lidar com caracteres especiais em `fig.cap`? (Para ajuda, olhe.black[[hint](https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html#text-references)])
+
+---
+class: center, middle
+
+# Por hoje tá bom, né? Próxima aula vamos entender a importância do version control:
+
+```{r version, fig.align='center', fig.cap="", out.width="65%"}
+knitr::include_graphics("figures/version_control.png")
+```
+
+---
+class: center, middle
+# História da vida...
+```{r version2, fig.align='center', fig.cap="", out.width="40%"}
+knitr::include_graphics("figures/version_control.gif")
+```
+
+<iframe src="https://giphy.com/embed/l0NhZ0aUSE8fXag12" width="1000" height="500" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
