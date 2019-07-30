@@ -1,0 +1,111 @@
+---
+bibliography: HEALTH SENSITIVITY-Gender Paradox.bib
+title: "References"
+author: "Vanessa di Lego"
+date: "7/29/2019"
+fontsize: 12pt
+geometry: margin = 1.2in
+header-includes:
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \onehalfspacing
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage[table]{xcolor}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{placeins}
+- \usepackage{tabularx,adjustbox}
+- \usepackage[fontsize=12pt]{scrextend}
+- \usepackage{dcolumn}
+- \usepackage{lmodern}
+- \usepackage[T1]{fontenc}
+- \usepackage[utf8]{inputenc}
+- \usepackage{lastpage}
+- \usepackage{indentfirst}
+- \usepackage{color}
+- \usepackage{graphicx}
+- \usepackage{booktabs}
+- \usepackage{lscape}
+- \usepackage{longtable}
+- \usepackage{multirow}
+- \usepackage{graphicx}
+- \usepackage{microtype}
+- \usepackage[backend=bibtex]{biblatex}
+- \usepackage[portuguese]{babel}
+linestretch: 2
+linkcolor: black
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+  word_document: default
+urlcolor: black
+---
+
+# Documento produzido com Rmarkdown!
+
+## Criando um file .bibtex para integrar Mendeley e Rmarkdown:
+
+- Baixe o Mendeley para Desktop. Entre no site e adicione o login que fizeram hoje em sala. A página Parace como na figura abaixo:
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/pag_1Mend.png")
+
+```
+
+
+- Depois entre no Mendeley na barra de ferramentas em "Tools" em clique em "Options
+
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/Screenshot (4)_LI.jpg")
+
+```
+
+
+- Em "Options" abra a aba "Bibtex"
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/Screenshot (6)_LI.jpg")
+
+```
+
+- Selecione os itens indicados pelas setas nas imagens e escreva na parte em branco o caminho. Esse é o diretório de todas as coisas referentes ao Rmarkdown onde você está trabalhando.
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/Screenshot (7)_LI.jpg")
+
+```
+
+-Pressione o "Sync"
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/Screenshot (9)_LI.jpg")
+
+```
+
+
+- Confirme se no seu diretório de trabalho encontra arquivos escritos "BibteX Database"
+
+```{r, fig.align='center', out.width="90%"}
+knitr::include_graphics("C:/Users/vdile/Documents/Git/lecture_rmarkdown-master/lecture_rmarkdown/Screenshot (10)_LI.jpg")
+
+```
+
+Pronto! Como eu tenho uma pasta para cada referência, tenho várias pastas. Mas você pode ter só uma ou até mesmo salvar somente uma referência! 
+Salve em um pendrive ou envie para o seu e-mail para podermos trabalhar com isso em sala de aula. Um exemplo do uso é agora eu citar `[@Benyamini1999]` e aparecer como [@Benyamini1999] no texto e nas referências abaixo!
+
+## References
+
+
