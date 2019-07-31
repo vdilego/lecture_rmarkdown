@@ -1,0 +1,182 @@
+---
+title: "Exemplos de mortalidade, com dados e métodos no Rmarkdown"
+author: "Vanessa di Lego, adaptado da Monica Alexander"
+date: "31/07/2019"
+output: pdf_document
+---
+
+Esses códigos vieram das aulas da Monica Alexander! Para mais detalhes e outros exemplos geniais, por favor olhe o github dela: https://github.com/MJAlexander!
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## Lendo o dado 
+
+Pacotes:
+```{r}
+library(tidyverse)
+library(here)
+library(RColorBrewer)
+
+```
+
+Dados: Mortalidade do Canadá http://www.bdlc.umontreal.ca/CHMD/. Nesse exemplo ela usa os dados de Ontario
+
+```{r}
+dm <- read.csv("Ontario.csv", header=T, sep=",")
+head(dm)
+```
+
+## Tabela de vida: curvas
+
+### Sobrevivência (lx)
+
+```{r}
+library(dplyr)
+library(tidyverse)
+
+dm2<-dm %>% 
+  filter(Year==1921) %>% 
+  select(Age, lx)
+
+dm2$Age<-as.numeric(as.character(dm2$Age))
+
+  ggplot(dm2, aes(Age, lx/100000)) + geom_line(lwd = 1.1) + 
+  ylab("lx") + xlab("idade") + 
+  ggtitle("Survival, 1921") + theme_classic()+ scale_color_viridis_d()
+
+```
+
+```{r}
+dm3<-dm %>% 
+  filter(Year==1921|Year==2011) %>% 
+  mutate(Year = factor(Year)) 
+
+dm3$Age<-as.numeric(as.character(dm3$Age))
+
+  ggplot(dm3,aes(Age, lx/100000, color = Year)) + geom_line(lwd = 1.1) + 
+  ylab("lx") + xlab("idade") + 
+  ggtitle("Sobrevivência em Otário, 1921 e 2011") + theme_classic()+scale_color_viridis_d()
+```
+### Probabilidade de morte (nqx)
+
+```{r}
+dm4<-dm %>% 
+  filter(Year==1921|Year==2011) %>% 
+  mutate(Year = factor(Year)) 
+
+dm4$Age<-as.numeric(as.character(dm4$Age))
+
+  ggplot(dm4, aes(Age, qx, color = Year)) + geom_line(lwd = 1.1) + 
+  ylab("qx") + xlab("age") + 
+  ggtitle("Probabilidade de morte, Ontário, 1921 e 2011") + 
+  scale_y_log10()+ theme_classic()+ scale_color_viridis_d()
+
+```
+### Expectativa de vida (ex)
+```{r}
+dm5<-dm %>% 
+  filter(Year==1921|Year==2011) %>% 
+  mutate(Year = factor(Year)) 
+
+dm5$Age<-as.numeric(as.character(dm5$Age))
+
+  ggplot(dm5, aes(Age, ex, color = Year)) + geom_line(lwd = 1.1) + 
+  ylab("qx") + xlab("idade") + 
+  ggtitle("Expectativa de vida, Ontário, 1921 e 2011") + theme_classic()+scale_color_viridis_d()
+
+```
+
+## Modelos de Gompertz 
+
+## Plotando!
+
+```{r}
+dm6<-dm %>% 
+  filter(Year==1921|Year==2011) %>% 
+  mutate(Year = factor(Year)) 
+
+dm6$Age<-as.numeric(as.character(dm6$Age))
+
+  ggplot(dm6, aes(Age, mx, color = Year)) + geom_line(lwd = 1.1) + 
+  ylab("qx") + xlab("idade") + 
+  ggtitle("Probabilidade de morte, Ontário, 1921 e 2011") + 
+  scale_y_log10()+ theme_classic()+scale_color_viridis_d()
+
+```
+
+### Ajuste Gompertz
+
+```{r}
+dm %>% 
+  mutate(age = as.numeric(as.character(Age))) %>% 
+  filter(age>49) %>% 
+  select(Year, age, mx) %>% 
+  mutate(log_mx = log(mx)) %>% 
+  group_by(Year) %>% 
+  summarise(alpha = exp((lm(log_mx~age))$coefficients[1]), beta = (lm(log_mx~age))$coefficients[2]) %>% 
+  ggplot(aes(alpha, beta, color = Year)) + geom_point() +
+  ggtitle("Parâmetros Gompertz para Ontario, 1921 - 2011")+ theme_classic()+scale_color_viridis_c()
+
+```
+
+## Evidência do plateau de mortalidade?
+
+Suécia: longa série e qualidade excelente de dados.  
+
+```{r}
+ds <- read.table("SWE_Mx_1x1.txt", header=T)
+head(ds)
+```
+
+```{r}
+ds %>% 
+  filter(Year==2015|Year==1800) %>% 
+  mutate(age = as.numeric(as.character(Age)), mx = as.numeric(as.character(Total)), year = as.factor(Year)) %>% 
+  filter(age>59) %>% 
+  ggplot(aes(age, log(mx), color = year)) + geom_point() + 
+  ggtitle("Taxas de mortalidade (log), Sweden") + theme_classic()+scale_color_viridis_d()
+
+```
+
+# Gráficos chatos??
+
+```{r}
+library(matlab)
+with_palette <- function(palette) {
+  x <- y <- seq(-8 * pi, 8 * pi, len = 40)
+  r <- sqrt(outer(x^2, y^2, "+"))
+  filled.contour(cos(r^2) * exp(-r / (2 * pi)),
+    axes = FALSE,
+    color.palette = palette,
+    asp = 1
+  )
+}
+
+with_palette(jet.colors)
+library(viridis)
+with_palette(viridis)
+
+
+```
+
+
+```{r}
+library(dichromat)
+library(purrr)
+with_palette(
+  compose(
+    partial(dichromat, type = "deutan"),
+    jet.colors
+    )
+)
+
+with_palette(
+  compose(
+    partial(dichromat, type = "protan"),
+    jet.colors
+    )
+)
+```
+
