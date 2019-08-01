@@ -5,7 +5,7 @@ date: "31/07/2019"
 output: pdf_document
 ---
 
-Esses códigos vieram das aulas da Monica Alexander! Veja aquela sintaxe bla por favor olhe o github dela: https://github.com/MJAlexander. adicione texto
+Esses códigos vieram das aulas da Monica Alexander! Por favor olhe o github dela: https://github.com/MJAlexander.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
