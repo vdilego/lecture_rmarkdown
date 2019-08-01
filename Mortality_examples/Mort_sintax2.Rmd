@@ -20,7 +20,7 @@ library(RColorBrewer)
 
 ```
 
-Dados: Mortalidade do Canadá http://www.bdlc.umontreal.ca/CHMD/. Nesse exemplo ela usa os dados de Ontario
+Dados: Mortalidade do Canadá http://www.bdlc.umontreal.ca/CHMD/. Nesse exemplo ela usa os dados de Ontário
 
 ```{r}
 dm <- read.csv("Ontario.csv", header=T, sep=",")
@@ -43,7 +43,7 @@ dm2$Age<-as.numeric(as.character(dm2$Age))
 
   ggplot(dm2, aes(Age, lx/100000)) + geom_line(lwd = 1.1) + 
   ylab("lx") + xlab("idade") + 
-  ggtitle("Survival, 1921") + theme_classic()+ scale_color_viridis_d()
+  ggtitle("Sobreviência, 1921") + theme_classic()+ scale_color_viridis_d()
 
 ```
 
@@ -56,7 +56,7 @@ dm3$Age<-as.numeric(as.character(dm3$Age))
 
   ggplot(dm3,aes(Age, lx/100000, color = Year)) + geom_line(lwd = 1.1) + 
   ylab("lx") + xlab("idade") + 
-  ggtitle("Sobrevivência em Otário, 1921 e 2011") + theme_classic()+scale_color_viridis_d()
+  ggtitle("Sobrevivência em Ontário, 1921 e 2011") + theme_classic()+scale_color_viridis_d()
 ```
 ### Probabilidade de morte (nqx)
 
@@ -116,13 +116,13 @@ dm %>%
   group_by(Year) %>% 
   summarise(alpha = exp((lm(log_mx~age))$coefficients[1]), beta = (lm(log_mx~age))$coefficients[2]) %>% 
   ggplot(aes(alpha, beta, color = Year)) + geom_point() +
-  ggtitle("Parâmetros Gompertz para Ontario, 1921 - 2011")+ theme_classic()+scale_color_viridis_c()
+  ggtitle("Parâmetros Gompertz para Ontário, 1921 - 2011")+ theme_classic()+scale_color_viridis_c()
 
 ```
 
 ## Evidência do plateau de mortalidade?
 
-Suécia: longa série e qualidade excelente de dados.  
+Suécia: longa série e qualidade excelente de dados. O que essas curvas indicam?
 
 ```{r}
 ds <- read.table("SWE_Mx_1x1.txt", header=T)
